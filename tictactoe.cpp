@@ -5,7 +5,7 @@
 
 int main(){
 	
-	//create array for positions
+	//create array for positions : array positions[0-8] 
 	//create board
 	//find possible win positions or tie game positions
 	//print board updated for each turn
@@ -14,6 +14,8 @@ int main(){
 	
 	//possible needed functions:
 	//void displayBoard : show the board with updated positions
+	//void movePlayer
+	//void modeComputer
 	//
 
 
