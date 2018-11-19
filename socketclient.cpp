@@ -5,20 +5,25 @@
 #include <sys/socket.h> 
 #include <stdlib.h> 
 #include <netinet/in.h> 
-#include <string.h> 
+#include <string.h>
+#include <iostream>
+#include "tictactoe.h"
 #define PORT 8080 
-   
+
 int main(int argc, char const *argv[]) 
 { 
+    //CREATE SOCKET
     struct sockaddr_in address; 
     int sock = 0, valread; 
     struct sockaddr_in serv_addr; 
-    char *hello = "Hello from client"; 
-    char buffer[1024] = {0}; 
+    //char *hello = "Hello from client"; 
+    int buffer = -1; 
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) 
     { 
         printf("\n Socket creation error \n"); 
         return -1; 
+    } else {
+	printf(" #### Socket Created\n");
     } 
    
     memset(&serv_addr, '0', sizeof(serv_addr)); 
@@ -37,11 +42,31 @@ int main(int argc, char const *argv[])
     { 
         printf("\nConnection Failed \n"); 
         return -1; 
-    } 
-    send(sock , hello , strlen(hello) , 0 ); 
-    printf("Hello message sent\n"); 
-    valread = read( sock , buffer, 1024); 
-    printf("%s\n",buffer ); 
+    } else {
+	printf(" #### Connected\n");
+    }
+
+    //IF CONNECTION IS SUCCESSFUL, BEGIN GAME
+
+    // GAME
+    int count = 0;
+    tictactoe yee;
+    do {
+        int playerMove = -1;
+        yee.drawBoard();
+        if (yee.whichPlayer() == true){
+            playerMove = yee.playerMove();
+        } else {
+            //receive server's move
+            valread = read( sock , &buffer, 1024); 
+            printf(" #### Move received by server: %d\n", buffer );
+            yee.serverMove(buffer);
+        }
+        //send player's move to server
+        send(sock , &playerMove , sizeof(playerMove) , 0 ); 
+
+        count++;
+    } while (count < 9);
     return 0; 
 } 
-
+//client
