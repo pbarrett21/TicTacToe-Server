@@ -17,8 +17,16 @@ How to run the Tic-Tac-Toe game:
 		4 5 6
 		7 8 9
 
+How to play:
+	The player starts first. Enter a move in the range from 1 to 9. After your move, the server will play.
+	Take turns until the game ends in a tie, you win, or the server wins.
+	To play another game, begin the client program again with [./client]
+
 Additional notes:
 	Though the server checks if its move has been used yet, the client does not. 
 	This means the player could reuse moves if he or she wanted. I did not check for this.
 	Per the project description: "the client program should verify that this move is valid before sending it to the server"
 	I interpreted this to mean check that the input is in a valid range (1-9). This I did check for.
+
+	The client ends automatically after a game has finished. The server continues listening for another game.
+	To end the server connection, use CTRL+c
